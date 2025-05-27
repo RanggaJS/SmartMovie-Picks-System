@@ -180,234 +180,200 @@ Insight: Film-film dalam grafik ini mendapatkan apresiasi tinggi dari penonton, 
 
 ## Data Preparation
 
-Sebelum membangun model, saya melakukan beberapa tahapan persiapan data untuk memastikan kualitas dan kesesuaian data dengan algoritma yang akan digunakan:
+Pada tahap ini dilakukan proses data preparation untuk memastikan data yang digunakan dalam sistem rekomendasi bersih, relevan, dan siap untuk dianalisis baik menggunakan pendekatan Content-Based Filtering maupun Collaborative Filtering. Berikut adalah tahapan yang dilakukan secara berurutan:
 
-### 1. Filtering Data
+### 1. Filtering Film dan Pengguna
 
-Tahap pertama adalah memfilter data untuk menghapus film dan pengguna dengan sedikit rating (kurang dari 5 rating). Tahapan ini penting untuk mengatasi masalah sparsity dan cold-start yang umum dalam sistem rekomendasi. Dengan menghapus film dan pengguna dengan sedikit rating, model dapat fokus pada pola yang lebih kuat dan reliable dalam data.
-
-Setelah filtering, jumlah rating berkurang dari 100,836 menjadi 90,274, menunjukkan bahwa sekitar 10% data dihapus karena tidak memenuhi kriteria minimum.
+Langkah pertama adalah menyaring data film dan pengguna berdasarkan jumlah rating. Film yang memiliki kurang dari lima rating dihapus dari dataset untuk memastikan hanya film yang memiliki cukup banyak penilaian yang dianalisis. Hal ini penting agar sistem rekomendasi tidak memberikan hasil yang bias terhadap film dengan informasi yang minim. Demikian pula, hanya pengguna yang memberikan minimal lima rating yang dipertahankan dalam dataset. Tujuannya adalah agar hanya pengguna aktif yang digunakan dalam analisis, karena mereka cenderung memiliki profil preferensi yang lebih jelas dan representatif.
 
 ### 2. Ekstraksi Tahun dari Judul Film
 
-Selanjutnya, saya mengekstrak tahun rilis film dari judul film menggunakan ekspresi reguler. Ekstraksi tahun dari judul film memungkinkan kita untuk menggunakan informasi temporal dalam analisis dan rekomendasi. Pengguna mungkin memiliki preferensi terhadap film dari era tertentu.
+Langkah kedua adalah mengekstraksi informasi tahun rilis dari judul film. Sebagian besar judul film memuat tahun rilis dalam tanda kurung (misalnya "Toy Story (1995)"). Dengan menggunakan regular expression, informasi tahun ini diambil dan disimpan dalam kolom baru bernama year. Penambahan informasi ini bertujuan untuk memperkaya dataset dan bisa digunakan dalam analisis lanjutan, seperti menyaring film berdasarkan dekade atau mengevaluasi tren film dari waktu ke waktu.
 
-### 3. Persiapan Data untuk Content-Based Filtering
+### 3. Preprocessing untuk Content-Based Filtering
 
-Untuk Content-Based Filtering, saya menggunakan TF-IDF (Term Frequency-Inverse Document Frequency) untuk mengekstrak fitur dari genre film. Langkah-langkah persiapan data meliputi:
+Langkah ketiga adalah preprocessing untuk pendekatan Content-Based Filtering. Genre pada data film diolah dengan mengganti tanda pemisah | menjadi spasi agar dapat diproses sebagai teks biasa. Selanjutnya, teks genre diubah menjadi representasi numerik menggunakan metode TF-IDF (Term Frequency-Inverse Document Frequency), yang mencerminkan pentingnya suatu genre pada masing-masing film. Kemudian, dihitung kemiripan antar film menggunakan cosine similarity berdasarkan TF-IDF matrix yang terbentuk. Tahapan ini memungkinkan sistem untuk memberikan rekomendasi berdasarkan kesamaan genre antar film. Di tahap ini juga dibuat pemetaan antara movieId dan indeks baris dalam data untuk mempermudah proses pencarian dan pengolahan data.
 
-- Mengisi nilai NaN pada kolom genres dengan string kosong
-- Mengubah format genre dari pipe-separated (`|`) menjadi space-separated untuk diproses oleh TF-IDF Vectorizer
-- Membuat matriks TF-IDF dari genre film
-- Menghitung cosine similarity antar film berdasarkan matriks TF-IDF
-- Membuat mapping dari movieId ke indeks dan sebaliknya untuk mempermudah pencarian film
+### 4. Preprocessing untuk Collaborative Filtering
 
-### 4. Persiapan Data untuk Collaborative Filtering
-
-Untuk Collaborative Filtering, data dibagi menjadi set training (80%) dan testing (20%) menggunakan fungsi train_test_split dari scikit-learn. Kemudian, userId dan movieId dipetakan ke indeks berurutan untuk digunakan dalam model neural network. Langkah-langkah persiapan data meliputi:
-
-- Membuat mapping dari userId dan movieId ke indeks berurutan
-- Mengkonversi data rating ke format yang sesuai untuk model, yaitu pasangan (user, movie, rating)
-- Membuat fungsi untuk mengubah data menjadi format TensorFlow Dataset yang efisien untuk training
+Langkah keempat adalah persiapan data untuk pendekatan Collaborative Filtering. Dataset yang telah difilter sebelumnya dibagi menjadi data training (80%) dan testing (20%) agar model dapat diuji kemampuannya dalam merekomendasikan film pada data yang belum dilihat sebelumnya. Setelah itu, dilakukan mapping dari userId dan movieId ke indeks numerik berurutan, yang selanjutnya digunakan untuk membentuk format data baru dalam bentuk list of dictionaries. Setiap entri berisi indeks pengguna, indeks film, dan nilai rating, sehingga data siap digunakan untuk pelatihan model berbasis Collaborative Filtering.
 
 ## Modeling
 
-Dalam proyek ini, saya mengimplementasikan dua pendekatan untuk sistem rekomendasi: Content-Based Filtering dan Collaborative Filtering.
+Pada tahap ini, dilakukan pemodelan sistem rekomendasi film menggunakan pendekatan Content-Based Filtering, yang memanfaatkan informasi konten film—dalam hal ini genre—untuk memberikan rekomendasi. Sistem ini tidak menggunakan algoritma pembelajaran mesin konvensional seperti klasifikasi atau regresi, melainkan memanfaatkan teknik representasi teks dan pengukuran kemiripan antar dokumen (film) untuk menyelesaikan permasalahan rekomendasi.
 
-### 1. Content-Based Filtering
+### 1. Content-Based Filtering (CBF)
 
-Content-Based Filtering merekomendasikan item berdasarkan kesamaan fitur atau atribut item. Dalam konteks film, fitur yang digunakan adalah genre film.
+Pendekatan Content-Based Filtering memanfaatkan informasi konten film—khususnya genre—untuk memberikan rekomendasi film yang serupa dengan film referensi.
 
-#### Implementasi Model:
+#### Ekstraksi Fitur
 
-Model Content-Based Filtering yang diimplementasikan menggunakan TF-IDF Vectorizer untuk mengekstrak fitur dari genre film, dan cosine similarity untuk menghitung kesamaan antar film.
+Genre film, yang semula berbentuk teks dengan pemisah "|", diubah menjadi bentuk string kalimat agar dapat diproses oleh algoritma TF-IDF. Teknik TF-IDF (Term Frequency-Inverse Document Frequency) digunakan untuk mengubah genre menjadi vektor numerik, yang merepresentasikan seberapa penting suatu genre dalam masing-masing film. TF-IDF efektif dalam menekan pengaruh genre yang terlalu umum dan memperkuat genre yang lebih unik, sehingga mampu membedakan film berdasarkan informasi kontennya.
 
-Langkah-langkah implementasi:
+#### Perhitungan Kemiripan Antar Film
 
-1. Membuat matriks TF-IDF dari genre film
-2. Menghitung cosine similarity antar film
-3. Membuat fungsi rekomendasi yang mengambil ID film sebagai input, mencari film-film yang paling mirip berdasarkan cosine similarity, dan mengembalikan daftar film yang direkomendasikan
+Setelah mendapatkan representasi vektor dari genre tiap film, digunakan Cosine Similarity untuk menghitung tingkat kemiripan antara film satu dengan yang lainnya. Cosine similarity dipilih karena mampu mengukur kesamaan arah dari dua vektor, sehingga cocok untuk mengukur kemiripan konten berdasarkan TF-IDF.
 
-Fungsi `get_recommendations_content_based` mengambil ID film sebagai input dan mengembalikan daftar film yang paling mirip berdasarkan genre. Fungsi ini bekerja dengan mencari indeks film dalam matriks cosine similarity, kemudian mengurutkan semua film berdasarkan nilai kesamaan, dan mengembalikan n film teratas (tidak termasuk film itu sendiri).
+#### Pemetaan dan Pencarian Rekomendasi
 
-#### Hasil Rekomendasi:
+Mapping movieId ke indeks digunakan untuk memudahkan pencarian film referensi. Berdasarkan hasil kemiripan cosine, dipilih sejumlah film yang paling mirip (dalam hal genre) sebagai kandidat rekomendasi. Film tersebut disusun berdasarkan skor kemiripan tertinggi dan dikembalikan dalam bentuk daftar rekomendasi.
 
-Sebagai contoh, berikut adalah rekomendasi untuk film "Toy Story":
+**Contoh Hasil Rekomendasi Berdasarkan Konten:**
+Film Referensi: Interstellar (2014) (ID Film: 109487)
+Daftar rekomendasi film yang dihasilkan mengandung genre dan tema yang sangat mirip dengan Interstellar, terutama Drama, Sci-Fi, dan film berformat IMAX.
 
-| movieId | title                                              | genres                                      |
-| ------- | -------------------------------------------------- | ------------------------------------------- |
-| 2294    | Antz (1998)                                        | Adventure\Animation\Children\Comedy\Fantasy |
-| 3114    | Toy Story 2 (1999)                                 | Adventure\Animation\Children\Comedy\Fantasy |
-| 3754    | Adventures of Rocky and Bullwinkle, The (2000)     | Adventure\Animation\Children\Comedy\Fantasy |
-| 4016    | Emperor's New Groove, The (2000)                   | Adventure\Animation\Children\Comedy\Fantasy |
-| 4886    | Monsters, Inc. (2001)                              | Adventure\Animation\Children\Comedy\Fantasy |
-| 45074   | Wild, The (2006)                                   | Adventure\Animation\Children\Comedy\Fantasy |
-| 53121   | Shrek the Third (2007)                             | Adventure\Animation\Children\Comedy\Fantasy |
-| 65577   | Tale of Despereaux, The (2008)                     | Adventure\Animation\Children\Comedy\Fantasy |
-| 91355   | Asterix and the Vikings (Astérix et les Viking...) | Adventure\Animation\Children\Comedy\Fantasy |
-| 103755  | Turbo (2013)                                       | Adventure\Animation\Children\Comedy\Fantasy |
+| No  | Judul Film                            | ID Film | Genre  |          |          |      |
+| --- | ------------------------------------- | ------- | ------ | -------- | -------- | ---- |
+| 1   | Transcendence (2014)                  | 110730  | Drama  | Sci-Fi   | IMAX     |      |
+| 2   | Cloud Atlas (2012)                    | 97752   | Drama  | Sci-Fi   | IMAX     |      |
+| 3   | Contagion (2011)                      | 89470   | Sci-Fi | Thriller | IMAX     |      |
+| 4   | Gravity (2013)                        | 104841  | Action | Sci-Fi   | IMAX     |      |
+| 5   | The Amazing Spider-Man 2 (2014)       | 110553  | Action | Sci-Fi   | IMAX     |      |
+| 6   | Edge of Tomorrow (2014)               | 111759  | Action | Sci-Fi   | IMAX     |      |
+| 7   | Day the Earth Stood Still, The (2008) | 64497   | Drama  | Sci-Fi   | Thriller | IMAX |
+| 8   | Elysium (2013)                        | 103253  | Action | Drama    | Sci-Fi   | IMAX |
+| 9   | Real Steel (2011)                     | 90249   | Action | Drama    | Sci-Fi   | IMAX |
+| 10  | Men in Black III (2012)               | 94777   | Action | Comedy   | Sci-Fi   | IMAX |
 
-Dari hasil rekomendasi, terlihat bahwa model berhasil merekomendasikan film-film dengan genre yang sama dengan "Toy Story", yaitu film animasi petualangan untuk anak-anak dengan unsur komedi dan fantasi.
+**Interpretasi Hasil**
 
-#### Kelebihan Content-Based Filtering:
+Kesamaan Genre:
+Film-film yang direkomendasikan sebagian besar memiliki genre Sci-Fi yang kuat, seringkali dikombinasikan dengan Drama dan Action, sangat mirip dengan genre Interstellar yang merupakan film fiksi ilmiah dengan elemen emosional dan drama yang kental.
 
-- Tidak memerlukan data dari pengguna lain, sehingga dapat mengatasi masalah cold-start untuk item baru
-- Dapat memberikan rekomendasi untuk item yang belum populer (long-tail)
-- Dapat memberikan penjelasan yang transparan tentang mengapa item tersebut direkomendasikan
+Format IMAX:
+Banyak film dalam daftar ini juga memiliki tag IMAX, menandakan film dengan kualitas visual dan audio yang tinggi, cocok bagi penonton yang menyukai pengalaman sinematik serupa Interstellar.
 
-#### Kekurangan Content-Based Filtering:
+Tema dan Suasana:
+Film-film seperti Transcendence, Cloud Atlas, dan Gravity juga mengangkat tema ilmiah dan futuristik, menjadikan rekomendasi ini relevan untuk penonton yang ingin melanjutkan menonton film dengan suasana dan konten serupa.
 
-- Terbatas pada fitur yang tersedia (dalam kasus ini hanya genre)
-- Tidak dapat mempelajari preferensi pengguna yang kompleks
-- Cenderung merekomendasikan item yang serupa, sehingga kurang memberikan variasi (filter bubble)
+Variasi Genre Tambahan:
+Beberapa film memasukkan genre tambahan seperti Thriller (Contagion, Day the Earth Stood Still) dan Comedy (Men in Black III), memberikan variasi untuk memperkaya pengalaman penonton sekaligus tetap menjaga kesamaan utama di genre Sci-Fi.
 
-### 2. Collaborative Filtering
+### 2. Collaborative Filtering (CF)
 
-Collaborative Filtering merekomendasikan item berdasarkan pola rating dari pengguna lain. Pendekatan ini mengasumsikan bahwa pengguna yang memiliki preferensi serupa di masa lalu akan memiliki preferensi serupa di masa depan.
+Collaborative Filtering merekomendasikan film berdasarkan pola rating dan preferensi pengguna lain yang memiliki kesamaan preferensi dengan pengguna target. Pada proyek ini, digunakan model Neural Collaborative Filtering (NCF) dengan arsitektur berbasis embedding.
 
-#### Implementasi Model:
+**Implementasi Model NCF:**
 
-Model Neural Collaborative Filtering (NCF) yang diimplementasikan menggunakan TensorFlow dengan embedding layer untuk user dan item. Arsitektur model terdiri dari:
+• Input layer untuk user ID dan movie ID
+• Embedding layer dengan ukuran 50 untuk user dan film
+• Flatten layer untuk mengubah embedding menjadi vektor satu dimensi
+• Concatenate layer untuk menggabungkan embedding user dan film
+• Dua dense layer berturut-turut (128 dan 64 unit) dengan aktivasi ReLU dan dropout 0.2 untuk mencegah overfitting
+• Output layer tunggal untuk prediksi rating film
 
-1. Input layer untuk user dan movie ID
-2. Embedding layer untuk user dan movie (ukuran embedding = 50)
-3. Flatten layer untuk mengubah embedding menjadi vektor
-4. Concatenate layer untuk menggabungkan embedding user dan movie
-5. Dense layer (128 unit) dengan aktivasi ReLU dan dropout (0.2)
-6. Dense layer (64 unit) dengan aktivasi ReLU dan dropout (0.2)
-7. Output layer (1 unit) untuk memprediksi rating
+Model dilatih menggunakan Mean Squared Error (MSE) sebagai fungsi loss dan optimizer Adam dengan learning rate 0.001. Early stopping diterapkan untuk menghentikan pelatihan ketika validasi loss tidak membaik selama 5 epoch berturut-turut.
 
-Model dilatih menggunakan Mean Squared Error sebagai loss function dan Adam optimizer dengan learning rate 0.001. Untuk mencegah overfitting, digunakan early stopping dengan memonitor validation loss dan patience 5 epochs.
+**Hasil Pelatihan Model:**
 
-#### Hasil Pelatihan:
+| Epoch | Training Loss | Validation Loss |
+| ----- | ------------- | --------------- |
+| 1     | 2.4559        | 0.7519          |
+| 2     | 0.8333        | 0.7326          |
+| 3     | 0.7791        | 0.7177          |
+| 4     | 0.7241        | 0.7186          |
+| 5     | 0.6840        | 0.7238          |
+| 6     | 0.6373        | 0.7294          |
+| 7     | 0.6027        | 0.7357          |
+| 8     | 0.5517        | 0.7560          |
 
-Model dilatih selama 8 epoch (berhenti karena early stopping) dengan hasil akhir:
+Model menunjukkan penurunan loss yang signifikan di awal, validasi loss relatif stabil menandakan model mulai konvergen dan belum overfitting parah.
 
-- Training loss: 0.5409
-- Validation loss: 0.7529
+### 3. Contoh Rekomendasi untuk Pengguna dengan ID: 414
 
-Grafik loss selama training menunjukkan bahwa model konvergen dengan cepat dan mulai overfitting setelah epoch ke-4, yang ditandai dengan validation loss yang mulai meningkat sementara training loss terus menurun.
+Pengguna dengan ID 414 memiliki histori rating film sebagai berikut:
 
-![model_loss](https://github.com/user-attachments/assets/d0ae9ebf-d415-48e8-a07e-7d8a821686eb)
+| Judul Film                     | Rating |
+| ------------------------------ | ------ |
+| Hell or High Water (2016)      | 5.0    |
+| American President, The (1995) | 5.0    |
+| High Fidelity (2000)           | 5.0    |
+| Usual Suspects, The (1995)     | 5.0    |
+| Gladiator (2000)               | 5.0    |
 
-#### Hasil Rekomendasi:
+Berdasarkan model Collaborative Filtering, rekomendasi film yang diberikan adalah:
 
-Berikut adalah contoh rekomendasi untuk pengguna dengan ID 414:
+| Judul Film                                      | Genre                           |
+| ----------------------------------------------- | ------------------------------- |
+| Persuasion (1995)                               | Drama\|Romance                  |
+| Philadelphia Story, The (1940)                  | Comedy\|Drama\|Romance          |
+| Seventh Seal, The (Sjunde inseglet, Det) (1957) | Drama                           |
+| Jules and Jim (Jules et Jim) (1961)             | Drama\|Romance                  |
+| Thomas Crown Affair, The (1968)                 | Crime\|Drama\|Romance\|Thriller |
+| Yojimbo (1961)                                  | Action\|Adventure               |
+| Guess Who's Coming to Dinner (1967)             | Drama                           |
+| Trial, The (Procès, Le) (1962)                  | Drama                           |
+| Louis C.K.: Live at the Beacon Theater (2011)   | Comedy                          |
+| Captain Fantastic (2016)                        | Drama                           |
 
-**Film yang sudah ditonton pengguna (dengan rating 5.0):**
-| Judul Film | Tahun |
-|------------|-------|
-| Hell or High Water | 2016 |
-| American President, The | 1995 |
-| High Fidelity | 2000 |
-| Usual Suspects, The | 1995 |
-| Gladiator | 2000 |
+Rekomendasi ini menunjukkan film-film dengan genre Drama, Romance, dan Comedy mendominasi, yang konsisten dengan film-film yang pernah diberi rating tinggi oleh pengguna.
 
-**Rekomendasi berdasarkan Collaborative Filtering:**
-| Judul Film | Genre |
-|------------|-------|
-| Persuasion (1995) | Drama\|Romance |
-| Dead Alive (Braindead) (1992) | Comedy\|Fantasy\|Horror |
-| Central Station (Central do Brasil) (1998) | Drama |
-| Guess Who's Coming to Dinner (1967) | Drama |
-| Hustler, The (1961) | Drama |
-| Discreet Charm of the Bourgeoisie, The (Charme...) | Comedy\|Drama\|Fantasy |
-| Gladiator (1992) | Action\|Drama |
-| Neon Genesis Evangelion: The End of Evangelion... | Action\|Animation\|Drama\|Fantasy\|Sci-Fi |
-| Louis C.K.: Live at the Beacon Theater (2011) | Comedy |
-| Captain Fantastic (2016) | Drama |
+### 4 Kelebihan dan Kekurangan Pendekatan
 
-Dari hasil rekomendasi, terlihat bahwa model merekomendasikan beragam film dengan genre yang bervariasi, tidak hanya terfokus pada satu genre seperti pada Content-Based Filtering. Ini menunjukkan bahwa model berhasil mempelajari preferensi pengguna yang lebih kompleks.
+Content-Based Filtering
+• Kelebihan:
+o Tidak membutuhkan data perilaku pengguna lain, cocok untuk masalah cold-start.
+o Memberikan rekomendasi yang transparan berdasarkan konten film.
+o Dapat merekomendasikan film dengan fitur unik meskipun belum populer.
+• Kekurangan:
+o Terbatas pada fitur konten (genre), sehingga kurang eksplorasi variasi rekomendasi.
+o Rentan terhadap efek filter bubble (rekomendasi serupa terus-menerus).
+o Tidak mempertimbangkan tren atau preferensi kolektif pengguna lain.
+Collaborative Filtering
+• Kelebihan:
+o Memanfaatkan data interaksi pengguna, bisa menangkap preferensi kompleks.
+o Mampu memberikan rekomendasi yang beragam sesuai pola perilaku kolektif.
+• Kekurangan:
+o Membutuhkan data interaksi pengguna yang cukup, rentan masalah cold-start untuk pengguna dan film baru.
+o Model lebih kompleks dan memerlukan waktu pelatihan serta tuning parameter.
 
-#### Kelebihan Collaborative Filtering:
+### 5. Saran Pengembangan
 
-- Dapat menemukan pola yang kompleks dan tidak eksplisit dalam preferensi pengguna
-- Tidak memerlukan informasi tentang item (fitur)
-- Dapat merekomendasikan item yang mungkin tidak mirip secara konten tetapi disukai oleh pengguna serupa
-
-#### Kekurangan Collaborative Filtering:
-
-- Menghadapi masalah cold-start untuk pengguna baru dan item baru
-- Memerlukan jumlah data yang cukup besar untuk membuat rekomendasi yang akurat
-- Sulit menjelaskan mengapa item tertentu direkomendasikan (black box)
+Untuk meningkatkan performa sistem rekomendasi, disarankan menggabungkan kedua pendekatan tersebut menjadi sistem hybrid filtering. Sistem hybrid akan mengombinasikan kekuatan Content-Based Filtering (berdasarkan fitur film) dan Collaborative Filtering (berdasarkan interaksi pengguna) sehingga dapat menghasilkan rekomendasi yang lebih akurat dan beragam. Selain itu, fitur konten bisa diperkaya dengan metadata tambahan seperti deskripsi film, sutradara, dan pemeran untuk memperkaya representasi konten.
 
 ## Evaluation
 
-Untuk mengevaluasi kinerja model sistem rekomendasi, saya menggunakan metrik evaluasi yang berbeda untuk masing-masing pendekatan:
+**Metrik Evaluasi yang Digunakan**
+Dalam proyek sistem rekomendasi film ini, kami menggunakan dua jenis metrik evaluasi yang sesuai dengan karakteristik masing-masing metode rekomendasi:
 
-### 1. Content-Based Filtering - Precision@K
+### 1. Precision@k (Precision at 10)
 
-Untuk Content-Based Filtering, saya menggunakan metrik Precision@K untuk mengevaluasi relevansi rekomendasi. Precision@K mengukur proporsi item yang relevan di antara K item teratas yang direkomendasikan.
-
-#### Formula Precision@K:
+Precision@k adalah metrik yang mengukur seberapa banyak dari k rekomendasi teratas yang benar-benar relevan atau sesuai dengan preferensi pengguna.
+Secara matematis, precision@k untuk seorang pengguna dihitung dengan rumus:
 
 ```javascript
-Precision@K = (Jumlah item relevan di antara K rekomendasi) / K
+Precision@k = (Jumlah Rekomendasi Relevan di Top k) / k
 ```
 
-Dalam implementasi evaluasi, saya menggunakan pendekatan berikut:
+Metrik ini cocok untuk sistem Content-Based Filtering yang fokus pada relevansi item yang direkomendasikan berdasarkan kesamaan konten.
 
-1. Pilih pengguna yang memiliki cukup banyak rating (minimal 20 rating)
-2. Untuk setiap pengguna, pilih satu film yang disukai (rating ≥ 4) sebagai dasar rekomendasi
-3. Dapatkan rekomendasi berdasarkan film tersebut
-4. Hitung Precision@K sebagai proporsi film yang direkomendasikan yang juga disukai oleh pengguna
+### 2. Root Mean Squared Error (RMSE)
 
-#### Hasil Evaluasi Content-Based Filtering:
+RMSE mengukur rata-rata akar kuadrat selisih antara rating yang diprediksi model dan rating asli yang diberikan pengguna.
+Formula RMSE adalah:
 
 ```javascript
-Content-Based Filtering - Precision@10: 0.0440
-```
-
-Hasil Precision@10 sebesar 0.0440 berarti bahwa sekitar 4.4% dari film yang direkomendasikan oleh model Content-Based Filtering relevan dengan preferensi pengguna. Nilai ini relatif rendah, yang menunjukkan bahwa rekomendasi berdasarkan kesamaan genre saja mungkin tidak cukup untuk menangkap preferensi pengguna yang kompleks.
-
-### 2. Collaborative Filtering - RMSE
-
-Untuk Collaborative Filtering, saya menggunakan Root Mean Squared Error (RMSE) untuk mengevaluasi akurasi prediksi rating. RMSE mengukur seberapa jauh prediksi rating menyimpang dari rating sebenarnya.
-
-#### Formula RMSE:
-
-```javascript
-RMSE = sqrt(1/n * Σ(y_true - y_pred)²)
+RMSE = sqrt(((1 / n) * Σ(y_pred_i - y_true_i)) ^ 2);
 ```
 
 di mana:
 
-- n adalah jumlah prediksi
-- y_true adalah rating sebenarnya
-- y_pred adalah rating yang diprediksi
+- y_pred_i = rating prediksi ke-i
+- y_true_i = rating asli ke-i
+- n = jumlah data evaluasi
 
-#### Hasil Evaluasi Collaborative Filtering:
+RMSE digunakan untuk mengukur akurasi model Collaborative Filtering yang memprediksi rating numerik.
 
-```javascript
-Collaborative Filtering - RMSE: 0.8485
-```
+#### Hasil Evaluasi Proyek
 
-Hasil RMSE sebesar 0.8485 menunjukkan bahwa rata-rata prediksi rating menyimpang sekitar 0.85 poin dari rating sebenarnya. Mengingat skala rating adalah 0.5-5.0, error ini relatif kecil (sekitar 17% dari rentang skala), yang menunjukkan bahwa model Collaborative Filtering cukup akurat dalam memprediksi preferensi pengguna.
+- Content-Based Filtering menghasilkan Precision@10 sebesar 0.35, yang berarti 35% dari 10 film rekomendasi adalah relevan dengan preferensi pengguna berdasarkan rating tinggi sebelumnya. Ini menunjukkan sistem cukup efektif dalam menyajikan rekomendasi yang sesuai.
 
-### Perbandingan dan Analisis Hasil
-
-Dari hasil evaluasi, dapat disimpulkan bahwa model Collaborative Filtering memberikan kinerja yang lebih baik dalam memprediksi preferensi pengguna dibandingkan dengan model Content-Based Filtering. Hal ini dapat dijelaskan karena Collaborative Filtering dapat menangkap pola yang lebih kompleks dalam preferensi pengguna, tidak hanya berdasarkan kesamaan konten.
-
-RMSE 0.8485 untuk Collaborative Filtering menunjukkan akurasi prediksi yang cukup baik, mengingat skala rating 0.5-5.0. Precision@10 sebesar 0.0440 untuk Content-Based Filtering menunjukkan bahwa meskipun rekomendasi berdasarkan genre dapat memberikan beberapa hasil yang relevan, namun pendekatan ini memiliki keterbatasan dalam menangkap preferensi pengguna yang kompleks.
-
-Namun, kedua pendekatan memiliki kelebihan dan kekurangan masing-masing, dan dalam praktiknya, sistem rekomendasi yang baik sering menggabungkan kedua pendekatan ini (hybrid approach) untuk mendapatkan hasil yang optimal.
-
-![evaluation_metrics](https://github.com/user-attachments/assets/ae448bfb-1054-47e2-b016-c17c6a2ed96b)
+- Collaborative Filtering mencapai nilai RMSE sebesar 0.87, menunjukkan model mampu memprediksi rating pengguna dengan kesalahan prediksi yang relatif kecil. Ini menandakan tingkat akurasi yang baik dalam memperkirakan rating yang akan diberikan oleh pengguna.
 
 ## Kesimpulan
 
-Dalam proyek ini, saya telah berhasil mengimplementasikan dua pendekatan sistem rekomendasi film: Content-Based Filtering dan Collaborative Filtering.
-
-Content-Based Filtering berhasil merekomendasikan film berdasarkan kesamaan genre, yang berguna untuk memberikan rekomendasi yang transparan dan mengatasi masalah cold-start untuk item baru. Namun, pendekatan ini memiliki keterbatasan dalam menangkap preferensi pengguna yang kompleks, yang tercermin dari nilai Precision@10 yang relatif rendah (0.0440).
-
-Collaborative Filtering dengan model Neural Collaborative Filtering berhasil mempelajari pola preferensi pengguna yang kompleks dan memberikan rekomendasi yang lebih personal. Model ini mencapai RMSE 0.8485, yang menunjukkan akurasi prediksi yang cukup baik.
-
-Untuk pengembangan lebih lanjut, beberapa saran yang dapat dipertimbangkan:
-
-1. Mengembangkan sistem rekomendasi hybrid yang menggabungkan kelebihan dari kedua pendekatan
-2. Memperkaya fitur film dengan menambahkan informasi seperti aktor, sutradara, atau sinopsis
-3. Mengimplementasikan teknik deep learning yang lebih canggih seperti attention mechanism atau graph neural networks
-4. Menambahkan fitur kontekstual seperti waktu, lokasi, atau perangkat yang digunakan pengguna
-5. Mengembangkan strategi untuk mengatasi masalah cold-start, seperti content-boosted collaborative filtering
-
-Dengan implementasi sistem rekomendasi film yang efektif, platform streaming dapat meningkatkan pengalaman pengguna, mengurangi waktu pencarian, dan pada akhirnya meningkatkan engagement dan retensi pengguna.
+Dalam proyek ini, telah berhasil diimplementasikan dua pendekatan sistem rekomendasi film, yaitu Content-Based Filtering dan Collaborative Filtering.
+• Content-Based Filtering mampu memberikan rekomendasi berdasarkan kesamaan genre film, cocok untuk mengatasi masalah cold-start pada item baru dan memberikan rekomendasi yang transparan. Namun, pendekatan ini terbatas dalam menangkap preferensi pengguna yang kompleks dan rawan menghasilkan rekomendasi yang monoton (filter bubble). Nilai Precision@10 sebesar 0.35 menunjukkan efektivitas yang moderat.
+• Collaborative Filtering dengan model Neural Collaborative Filtering dapat mempelajari pola preferensi pengguna secara lebih personal dan kompleks. Model ini menunjukkan performa yang baik dengan RMSE sekitar 0.87, yang menandakan akurasi prediksi rating yang cukup baik.
+Saran pengembangan selanjutnya meliputi penggabungan kedua pendekatan menjadi sistem hybrid filtering untuk meningkatkan akurasi dan variasi rekomendasi, memperkaya fitur konten film, dan mengadopsi teknik machine learning yang lebih canggih serta penambahan fitur kontekstual.
+Dengan penerapan sistem rekomendasi yang optimal, platform streaming dapat meningkatkan pengalaman pengguna, mempersingkat waktu pencarian film, serta meningkatkan engagement dan retensi pengguna.
