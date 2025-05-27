@@ -277,6 +277,8 @@ Model dilatih menggunakan Mean Squared Error (MSE) sebagai fungsi loss dan optim
 | 7     | 0.6027        | 0.7357          |
 | 8     | 0.5517        | 0.7560          |
 
+![model_loss_ggplot_style](https://github.com/user-attachments/assets/7a34c14e-54fb-410b-89f0-f499ef216c5c)
+
 Model menunjukkan penurunan loss yang signifikan di awal, validasi loss relatif stabil menandakan model mulai konvergen dan belum overfitting parah.
 
 ### 3. Contoh Rekomendasi untuk Pengguna dengan ID: 414
@@ -366,9 +368,9 @@ RMSE digunakan untuk mengukur akurasi model Collaborative Filtering yang mempred
 
 #### Hasil Evaluasi Proyek
 
-- Content-Based Filtering menghasilkan Precision@10 sebesar 0.35, yang berarti 35% dari 10 film rekomendasi adalah relevan dengan preferensi pengguna berdasarkan rating tinggi sebelumnya. Ini menunjukkan sistem cukup efektif dalam menyajikan rekomendasi yang sesuai.
+![evaluation_metrics_alt](https://github.com/user-attachments/assets/37545aa1-de8c-404b-b3f6-3d5b0004bccd)
 
-- Collaborative Filtering mencapai nilai RMSE sebesar 0.87, menunjukkan model mampu memprediksi rating pengguna dengan kesalahan prediksi yang relatif kecil. Ini menandakan tingkat akurasi yang baik dalam memperkirakan rating yang akan diberikan oleh pengguna.
+Evaluasi sistem rekomendasi film dilakukan dengan menggunakan metrik yang sesuai untuk masing-masing pendekatan. Untuk Content-Based Filtering, hasil evaluasi menunjukkan nilai Precision@10 sebesar 0.0230, yang mengindikasikan bahwa sekitar 2,3% dari 10 rekomendasi teratas relevan dengan preferensi pengguna berdasarkan kesamaan konten film. Nilai ini menunjukkan bahwa pendekatan ini masih memiliki keterbatasan dalam memberikan rekomendasi yang sangat tepat. Sedangkan pada Collaborative Filtering, model yang digunakan berhasil mencapai nilai Root Mean Squared Error (RMSE) sebesar 0.8472, menunjukkan tingkat akurasi prediksi rating pengguna yang cukup baik. RMSE yang rendah ini menandakan bahwa model mampu memprediksi preferensi pengguna dengan kesalahan yang relatif kecil, sehingga memberikan rekomendasi yang lebih personal dan akurat dibandingkan Content-Based Filtering.
 
 ## Kesimpulan
 
