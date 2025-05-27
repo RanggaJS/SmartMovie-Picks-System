@@ -105,42 +105,42 @@ Dataset ratings terdiri dari 100.836 baris dan 4 kolom (userId, movieId, rating,
 
 #### 2. Heatmap Korelasi Jumlah Rating vs Rata-rata Rating
 
-![heatmap_correlation](https://github.com/user-attachments/assets/d1788302-7bde-4202-97c2-f461e8fae0f7)
+![heatmap_correlation](https://github.com/user-attachments/assets/ccadaf71-1dbc-4560-be1c-0e97be167348)
 
 Visualisasi ini menunjukkan hubungan antara jumlah rating dan rata-rata rating per film.
 Insight: Nilai korelasi yang sangat lemah (0.13) menunjukkan bahwa film yang banyak dirating belum tentu memiliki nilai rating tinggi — popularitas tidak selalu berbanding lurus dengan kualitas.
 
 #### 3. Boxplot Distribusi Rating per Genre
 
-![boxplot_rating_per_genre](https://github.com/user-attachments/assets/47b0a429-4354-4d3e-9911-93e69f66ef19)
+![boxplot_rating_per_genre](https://github.com/user-attachments/assets/5b359b24-81d7-4a53-9637-711211c0524c)
 
 Boxplot ini menunjukkan sebaran rating berdasarkan genre utama.
 Insight: Genre seperti Documentary dan Animation cenderung memiliki rating lebih tinggi, sedangkan genre seperti Horror memiliki distribusi yang lebih menyebar dan banyak outlier.
 
 #### 4. Wordcloud Genre Film
 
-![wordcloud_genre](https://github.com/user-attachments/assets/81f3bed0-da9b-4a7b-b58d-ff69c7be5bdb)
+![wordcloud_genre](https://github.com/user-attachments/assets/8efc4f53-6796-494c-9dd9-540d0f8af2fb)
 
 Wordcloud menggambarkan frekuensi kemunculan genre dalam dataset.
 Insight: Genre seperti Drama, Comedy, dan Romance adalah yang paling umum dalam data.
 
 #### 5. Scatter Plot: Rating per User
 
-![scatter_user_rating](https://github.com/user-attachments/assets/af4b5aa7-4769-4672-b1cb-03cbff352f70)
+![scatter_user_rating](https://github.com/user-attachments/assets/0be3fb1b-5c99-4eb1-8658-b765f2888ee6)
 
 Plot ini menunjukkan hubungan antara jumlah film yang dirating oleh user dan rata-rata rating yang mereka berikan.
 Insight: User yang memberikan rating dalam jumlah besar cenderung memberi rating yang lebih stabil/moderat, sedangkan user dengan sedikit rating cenderung ekstrem.
 
 #### 6. Barplot: 10 Film Paling Banyak Dirating
 
-![top10_movies_rating_count](https://github.com/user-attachments/assets/6a78aa75-94a2-4e44-83ce-1d6360b57f42)
+![top10_movies_rating_count](https://github.com/user-attachments/assets/3a18ed01-ed60-47cb-b892-de77665a1d4c)
 
 Grafik ini menunjukkan 10 film dengan jumlah rating terbanyak.
 Insight: Film klasik seperti Forrest Gump dan The Shawshank Redemption menempati peringkat teratas, mencerminkan tingkat popularitas yang sangat tinggi.
 
 #### 7. Treemap: Genre Film Terpopuler
 
-![treemap_genre](https://github.com/user-attachments/assets/9bc10afd-2bfd-4ead-ade6-1fcf2fb1eeb5)
+![treemap_genre](https://github.com/user-attachments/assets/4c34acee-39ae-406f-9860-f2d6d78d6622)
 
 Grafik ini menampilkan genre film berdasarkan tingkat popularitasnya dalam bentuk treemap, di mana ukuran setiap kotak mencerminkan jumlah film atau tingkat popularitas genre tersebut.
 
@@ -148,7 +148,7 @@ Insight: Genre Drama, Comedy, dan Action mendominasi tampilan ini, menandakan ke
 
 #### 8. Radar Chart: Genre Film Terpopuler
 
-![radar_genre](https://github.com/user-attachments/assets/ce2a4766-23c2-4fd5-b6f2-dd8a6fdf8616)
+![radar_genre](https://github.com/user-attachments/assets/3ed5d461-2e7f-48aa-b31c-e67fe590efb0)
 
 Grafik radar ini memvisualisasikan popularitas berbagai genre film dalam bentuk area yang melebar ke berbagai arah sesuai skala nilai popularitas.
 
@@ -156,7 +156,7 @@ Insight: Drama muncul sebagai genre paling populer, disusul oleh Comedy dan Thri
 
 #### 9. Bubble Chart: Popularitas vs Kualitas Film
 
-![bubble_rating](https://github.com/user-attachments/assets/0d9eda6a-b5b3-47d5-80bd-87f7af1c5057)
+![bubble_rating](https://github.com/user-attachments/assets/a16ad5f7-a3de-4177-98d7-2c76e6748166)
 
 Grafik ini menggabungkan jumlah rating (sumbu X) dan rata-rata rating (sumbu Y) dari film, dengan ukuran dan warna gelembung mewakili jumlah dan kualitas ulasan.
 
@@ -164,7 +164,7 @@ Insight: Terlihat bahwa beberapa film memiliki rating sangat tinggi meski tidak 
 
 #### 10. Donut Chart: Distribusi Genre Film
 
-![donut_genre](https://github.com/user-attachments/assets/f7f0312e-1ae6-4e74-87a2-ab46a3cc5dcc)
+![donut_genre](https://github.com/user-attachments/assets/38a582b2-fb3b-4489-9aef-7ac0cb9d39e6)
 
 Grafik berbentuk donat ini menunjukkan distribusi persentase film berdasarkan genre.
 
@@ -172,7 +172,7 @@ Insight: Drama mendominasi dengan porsi 23.7%, diikuti oleh Comedy dan Action. G
 
 #### 11. Barplot: Top 15 Film Berdasarkan Rating Rata-rata (Min 100 Rating)
 
-![lollipop_top_movies](https://github.com/user-attachments/assets/30c115dd-402a-471b-aafc-1a345ef98811)
+![lollipop_top_movies](https://github.com/user-attachments/assets/b71a1282-a29c-41bc-a22d-8013e62eb1b7)
 
 Grafik ini menunjukkan 15 film dengan rating rata-rata tertinggi, dengan syarat minimal 100 rating agar hasil lebih representatif.
 
