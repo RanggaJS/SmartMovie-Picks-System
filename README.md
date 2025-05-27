@@ -1,20 +1,34 @@
-# Laporan Proyek Machine Learning - Sistem Rekomendasi Film
+# Laporan Proyek Machine Learning - Rangga Julian Syaputra
 
 ## Domain Proyek
 
-Industri hiburan, khususnya platform streaming film dan serial TV, telah mengalami pertumbuhan yang signifikan dalam beberapa tahun terakhir. Menurut laporan dari Grand View Research, pasar global video streaming diperkirakan mencapai nilai USD 223,98 miliar pada tahun 2028 [1]. Pertumbuhan ini didorong oleh meningkatnya penggunaan smartphone, ketersediaan internet berkecepatan tinggi, dan perubahan preferensi konsumen dari media tradisional ke platform digital.
+### Latar Belakang
 
-Dengan jutaan konten yang tersedia di platform streaming seperti Netflix, Amazon Prime, dan Disney+, pengguna sering kali menghadapi tantangan yang disebut "choice overload" atau kelebihan pilihan. Menurut studi yang dilakukan oleh Nielsen, rata-rata pengguna menghabiskan 7,4 menit hanya untuk mencari konten yang ingin ditonton [2]. Fenomena ini dapat menyebabkan pengalaman pengguna yang buruk dan berpotensi mengakibatkan churn rate (tingkat pengguna yang berhenti berlangganan) yang tinggi.
+Di era digital saat ini, pengguna menghadapi tantangan dalam memilih film yang sesuai dengan preferensi mereka akibat banyaknya konten film yang tersedia di berbagai platform streaming. Dengan ribuan film yang dapat diakses, sangat tidak praktis bagi pengguna untuk mencari dan memilih film secara manual. Oleh karena itu, diperlukan sistem rekomendasi film yang dapat memberikan saran personal berdasarkan perilaku dan preferensi pengguna.
 
-Sistem rekomendasi film menjadi solusi penting untuk mengatasi masalah ini. Dengan memanfaatkan data historis pengguna dan teknik machine learning, sistem rekomendasi dapat memprediksi preferensi pengguna dan menyarankan konten yang relevan. Netflix melaporkan bahwa 80% dari streaming di platform mereka berasal dari rekomendasi personalisasi [3], yang menunjukkan pentingnya sistem rekomendasi yang efektif dalam meningkatkan engagement pengguna.
+Sistem rekomendasi merupakan komponen penting dalam meningkatkan pengalaman pengguna pada platform hiburan dengan membantu mereka menemukan konten yang relevan secara cepat dan tepat. Proyek ini mengembangkan sistem rekomendasi hibrida yang menggabungkan metode Collaborative Filtering dan Content-Based Filtering, yang memanfaatkan interaksi pengguna dengan film serta atribut film itu sendiri untuk menghasilkan rekomendasi yang lebih akurat dan beragam.
 
-Proyek ini berfokus pada pengembangan sistem rekomendasi film menggunakan dataset MovieLens, yang berisi rating film dari pengguna nyata. Dengan mengimplementasikan teknik Content-based Filtering dan Collaborative Filtering, proyek ini bertujuan untuk memberikan rekomendasi film yang personal dan relevan kepada pengguna, sehingga meningkatkan pengalaman pengguna dan potensial engagement pada platform film.
+### Mengapa Masalah Ini Perlu Diselesaikan
 
-**Referensi:**
+Volume besar film yang tersedia dapat menyebabkan kebingungan dan kelelahan dalam pengambilan keputusan bagi pengguna. Tanpa rekomendasi yang personal, pengguna berpotensi melewatkan film yang sesuai dengan minat mereka, sehingga menurunkan tingkat kepuasan dan loyalitas terhadap platform.
 
-1. Grand View Research, "Video Streaming Market Size Report, 2021-2028," 2021.
-2. Nielsen, "The Nielsen Total Audience Report," Q2 2019.
-3. C. A. Gomez-Uribe and N. Hunt, "The Netflix Recommender System: Algorithms, Business Value, and Innovation," ACM Transactions on Management Information Systems, vol. 6, no. 4, pp. 1-19, 2015.
+Penyelesaian masalah ini memberikan manfaat ganda: pengguna dapat menemukan film yang cocok dengan lebih mudah, sementara penyedia platform dapat meningkatkan waktu tontonan dan pendapatan. Selain itu, pemahaman preferensi pengguna melalui model berbasis data memungkinkan pengembangan algoritma rekomendasi yang terus ditingkatkan.
+
+### Hasil Riset dan Referensi Terkait
+
+Metode sistem rekomendasi telah banyak diteliti dan diterapkan di berbagai bidang. Collaborative filtering mengandalkan pola interaksi pengguna untuk memprediksi preferensi (Su & Khoshgoftaar, 2009), sedangkan content-based filtering menggunakan fitur dari item (seperti genre dan deskripsi film) untuk merekomendasikan item serupa (Lops, de Gemmis, & Semeraro, 2011).
+
+Sistem hibrida mengkombinasikan kedua metode tersebut guna mengatasi keterbatasan masing-masing, seperti masalah cold start dan sparsity pada collaborative filtering, serta keterbatasan variasi rekomendasi pada content-based filtering (Burke, 2002). Perkembangan terbaru menggunakan deep learning untuk memodelkan hubungan kompleks antara pengguna dan item dalam ruang laten (He et al., 2017).
+
+### Referensi
+
+Su, X., & Khoshgoftaar, T. M. (2009). A survey of collaborative filtering techniques. Advances in Artificial Intelligence, 2009, Article ID 421425. https://doi.org/10.1155/2009/421425
+
+Lops, P., de Gemmis, M., & Semeraro, G. (2011). Content-based Recommender Systems: State of the Art and Trends. Recommender Systems Handbook, 73–105. https://doi.org/10.1007/978-0-387-85820-3_3
+
+Burke, R. (2002). Hybrid Recommender Systems: Survey and Experiments. User Modeling and User-Adapted Interaction, 12(4), 331–370. https://doi.org/10.1023/A:1021240730564
+
+He, X., Liao, L., Zhang, H., Nie, L., Hu, X., & Chua, T.-S. (2017). Neural Collaborative Filtering. Proceedings of the 26th International Conference on World Wide Web, 173–182. https://doi.org/10.1145/3038912.3052569
 
 ## Business Understanding
 
@@ -22,105 +36,147 @@ Proyek ini berfokus pada pengembangan sistem rekomendasi film menggunakan datase
 
 Berdasarkan latar belakang di atas, berikut adalah beberapa permasalahan yang perlu diselesaikan dalam proyek ini:
 
-1. Bagaimana cara mengatasi masalah "choice overload" yang dihadapi pengguna ketika mencari film untuk ditonton di antara ribuan pilihan yang tersedia?
-2. Bagaimana mengembangkan sistem rekomendasi yang dapat memprediksi preferensi pengguna dengan akurat berdasarkan riwayat tontonan mereka?
-3. Bagaimana meningkatkan pengalaman pengguna dengan memberikan rekomendasi film yang personal dan relevan?
+1. Keterbatasan dalam Menemukan Film yang Sesuai dengan Preferensi Pengguna
+   Pengguna sering kesulitan menemukan film yang sesuai dengan selera dan preferensi mereka di antara ribuan pilihan yang tersedia.
+
+2. Kurangnya Personalisasi Rekomendasi yang Akurat
+   Sistem rekomendasi film yang ada belum mampu memberikan rekomendasi yang cukup relevan dan personal bagi setiap pengguna.
+
+3. Dampak Negatif dari Rekomendasi yang Tidak Tepat
+   Rekomendasi yang tidak sesuai dapat mengurangi kepuasan pengguna dan menurunkan keterlibatan mereka dalam menggunakan platform.
 
 ### Goals
 
 Tujuan dari proyek ini adalah:
 
-1. Mengembangkan sistem rekomendasi film yang dapat membantu pengguna menemukan film yang sesuai dengan preferensi mereka di antara ribuan pilihan yang tersedia.
-2. Membangun model yang dapat memprediksi preferensi pengguna berdasarkan riwayat rating film yang mereka berikan.
-3. Meningkatkan pengalaman pengguna dengan memberikan rekomendasi film yang personal dan relevan, sehingga mengurangi waktu pencarian dan meningkatkan tingkat kepuasan.
+1. Mengembangkan sistem rekomendasi film yang mampu memberikan rekomendasi personal berdasarkan preferensi pengguna.
+
+2. Meningkatkan akurasi rekomendasi melalui penerapan metode Content-Based Filtering dan Collaborative Filtering.
+
+3. Mengoptimalkan pengalaman pengguna dengan menampilkan rekomendasi yang relevan, sehingga meningkatkan kepuasan dan interaksi pengguna.
 
 ### Solution Statements
 
 Untuk mencapai tujuan di atas, berikut adalah solusi yang akan diimplementasikan:
 
-1. **Content-based Filtering**:
+**1. Mengimplementasikan Content-Based Filtering**
+Menggunakan fitur film seperti genre dan metadata lain untuk merekomendasikan film serupa yang sesuai dengan film favorit pengguna, dengan metrik evaluasi menggunakan Precision@10.
 
-- Mengembangkan sistem rekomendasi berbasis konten yang merekomendasikan film berdasarkan kemiripan fitur/atribut film (genre).
-- Menggunakan TF-IDF Vectorizer untuk mengekstrak fitur dari genre film dan menghitung cosine similarity antar film.
-- Solusi ini akan diukur menggunakan metrik Precision@K untuk mengevaluasi relevansi rekomendasi.
+**2. Mengembangkan Collaborative Filtering dengan Neural Collaborative Filtering (NCF)**
+Menggunakan model deep learning NCF untuk mempelajari preferensi pengguna berdasarkan interaksi pengguna-film dan menghasilkan prediksi rating yang lebih akurat, dievaluasi menggunakan metrik RMSE.
 
-2. **Collaborative Filtering**:
-
-- Mengembangkan sistem rekomendasi berbasis neural network yang mempelajari pola rating pengguna.
-- Menggunakan model Neural Collaborative Filtering (NCF) dengan embedding layer untuk user dan item.
-- Solusi ini akan diukur menggunakan metrik Root Mean Squared Error (RMSE) untuk mengevaluasi akurasi prediksi rating.
+**2. Penggabungan Model dan Pengujian Kinerja**
+Melakukan evaluasi dan perbandingan performa kedua metode untuk memilih solusi terbaik yang dapat diterapkan secara efektif. Peningkatan hasil evaluasi menjadi tolok ukur keberhasilan proyek.
 
 ## Data Understanding
 
-Dalam proyek ini, saya menggunakan dataset MovieLens Small yang dikembangkan oleh GroupLens Research. Dataset ini berisi 100,836 rating dan tag yang diberikan oleh 610 pengguna terhadap 9,742 film. Dataset ini dapat diunduh dari [situs resmi GroupLens](https://grouplens.org/datasets/movielens/latest/).
+Pada proyek ini, saya memanfaatkan dataset MovieLens Small yang dibuat oleh GroupLens Research. Dataset ini terdiri dari 100.836 data rating dan tag yang diberikan oleh 610 pengguna terhadap 9.742 film. Dataset tersebut dapat diunduh melalui [situs resmi GroupLens](https://grouplens.org/datasets/movielens/latest/).
 
-Dataset MovieLens Small terdiri dari beberapa file, namun dalam proyek ini saya fokus pada empat file utama:
+Dataset MovieLens Small terdiri dari beberapa file, namun dalam proyek ini saya memfokuskan pada empat file utama berikut:
 
 ### Variabel-variabel pada dataset MovieLens:
 
-1. **ratings.csv**: Berisi rating yang diberikan pengguna terhadap film
-
-- `userId`: ID unik untuk setiap pengguna
-- `movieId`: ID unik untuk setiap film
-- `rating`: Rating yang diberikan (skala 0.5-5.0)
-- `timestamp`: Waktu rating diberikan (format unix timestamp)
-
-2. **movies.csv**: Berisi informasi tentang film
-
-- `movieId`: ID unik untuk setiap film
-- `title`: Judul film (termasuk tahun rilis)
-- `genres`: Genre film (dipisahkan dengan "|")
-
-3. **tags.csv**: Berisi tag yang diberikan pengguna terhadap film
-
-- `userId`: ID unik untuk setiap pengguna
-- `movieId`: ID unik untuk setiap film
-- `tag`: Tag teks yang diberikan oleh pengguna
-- `timestamp`: Waktu tag diberikan (format unix timestamp)
-
-4. **links.csv**: Berisi tautan ke sumber eksternal
-
-- `movieId`: ID unik untuk setiap film
-- `imdbId`: ID film di Internet Movie Database (IMDb)
-- `tmdbId`: ID film di The Movie Database (TMDb)
+1.  **ratings.csv**: Berisi data rating yang diberikan oleh pengguna terhadap film, meliputi:
+    • userId: Identifikasi unik untuk setiap pengguna
+    • movieId: Identifikasi unik untuk setiap film
+    • rating: Nilai rating yang diberikan dengan rentang 0.5 hingga 5.0
+    • timestamp: Waktu pemberian rating dalam format unix timestamp
+2.  **movies.csv**: Berisi informasi dasar mengenai film, yang mencakup:
+    • movieId: Identifikasi unik untuk setiap film
+    • title: Judul film beserta tahun rilisnya
+    • genres: Genre film yang dipisahkan dengan tanda "|"
+3.  **tags.csv**: Berisi data tag atau label yang diberikan oleh pengguna terhadap film, terdiri dari:
+    • userId: Identifikasi unik untuk setiap pengguna
+    • movieId: Identifikasi unik untuk setiap film
+    • tag: Tag berupa teks yang diberikan oleh pengguna
+    • timestamp: Waktu pemberian tag dalam format unix timestamp
+4.  **links.csv**: Berisi tautan ke sumber data eksternal terkait film, yaitu:
+    • movieId: Identifikasi unik untuk setiap film
+    • imdbId: ID film di database IMDb (Internet Movie Database)
+    • tmdbId: ID film di database TMDb (The Movie Database)
 
 ### Exploratory Data Analysis
 
-Untuk memahami data dengan lebih baik, saya melakukan beberapa analisis eksplorasi:
+Berikut adalah beberapa visualisasi eksploratif yang digunakan untuk menganalisis dataset film (seperti MovieLens), termasuk genre, popularitas, dan perilaku pengguna dalam memberikan rating:
 
 #### 1. Statistik Dasar Dataset
 
-Dataset ratings memiliki 100,836 baris dengan 4 kolom (userId, movieId, rating, timestamp). Dataset movies memiliki 9,742 baris dengan 3 kolom (movieId, title, genres). Dari statistik deskriptif, kita dapat melihat bahwa rating rata-rata adalah 3.5 dengan standar deviasi 1.04, yang menunjukkan bahwa sebagian besar rating cenderung positif.
+Dataset ratings terdiri dari 100.836 baris dan 4 kolom (userId, movieId, rating, timestamp). Sedangkan dataset movies memiliki 9.742 baris dengan 3 kolom (movieId, title, genres). Berdasarkan analisis statistik deskriptif, rata-rata rating yang diberikan adalah 3,5 dengan standar deviasi sebesar 1,04, yang mengindikasikan bahwa sebagian besar rating cenderung bernilai positif.
 
-#### 2. Distribusi Rating
+#### 2. Heatmap Korelasi Jumlah Rating vs Rata-rata Rating
 
-Dari analisis distribusi rating, terlihat bahwa distribusi rating cenderung ke arah positif, dengan mayoritas rating berada pada skala 3.0-4.0. Rating 4.0 adalah yang paling umum, diikuti oleh 3.0 dan 5.0. Ini menunjukkan bahwa pengguna cenderung memberikan rating yang baik untuk film yang mereka tonton.
+![heatmap_correlation](https://github.com/user-attachments/assets/d1788302-7bde-4202-97c2-f461e8fae0f7)
 
-![rating_distribution](https://github.com/user-attachments/assets/88582fa5-5b2d-4224-9748-c6e487158701)
+Visualisasi ini menunjukkan hubungan antara jumlah rating dan rata-rata rating per film.
+Insight: Nilai korelasi yang sangat lemah (0.13) menunjukkan bahwa film yang banyak dirating belum tentu memiliki nilai rating tinggi — popularitas tidak selalu berbanding lurus dengan kualitas.
 
-#### 3. Distribusi Jumlah Rating per Film
+#### 3. Boxplot Distribusi Rating per Genre
 
-Analisis menunjukkan bahwa sebagian besar film hanya memiliki sedikit rating (kurang dari 10), sementara hanya sedikit film yang memiliki banyak rating. Ini adalah contoh klasik dari distribusi long-tail yang umum dalam sistem rekomendasi, di mana sebagian kecil item sangat populer sementara sebagian besar item jarang diakses.
+![boxplot_rating_per_genre](https://github.com/user-attachments/assets/47b0a429-4354-4d3e-9911-93e69f66ef19)
 
-![ratings_per_movie](https://github.com/user-attachments/assets/a445fadb-4ed4-460b-85bd-09220dd8e853)
+Boxplot ini menunjukkan sebaran rating berdasarkan genre utama.
+Insight: Genre seperti Documentary dan Animation cenderung memiliki rating lebih tinggi, sedangkan genre seperti Horror memiliki distribusi yang lebih menyebar dan banyak outlier.
 
-#### 4. Distribusi Jumlah Rating per Pengguna
+#### 4. Wordcloud Genre Film
 
-Serupa dengan distribusi rating per film, distribusi rating per pengguna juga menunjukkan pola long-tail. Sebagian besar pengguna hanya memberikan sedikit rating, sementara hanya beberapa pengguna yang aktif memberikan banyak rating.
+![wordcloud_genre](https://github.com/user-attachments/assets/81f3bed0-da9b-4a7b-b58d-ff69c7be5bdb)
 
-![ratings_per_user](https://github.com/user-attachments/assets/4f93496c-ea38-49fd-8243-48579981299f)
+Wordcloud menggambarkan frekuensi kemunculan genre dalam dataset.
+Insight: Genre seperti Drama, Comedy, dan Romance adalah yang paling umum dalam data.
 
-#### 5. Analisis Genre Film
+#### 5. Scatter Plot: Rating per User
 
-Dari analisis genre film, terlihat bahwa genre Drama adalah yang paling umum dalam dataset, diikuti oleh Comedy dan Thriller. Ini memberikan insight tentang jenis film yang paling banyak tersedia dalam dataset.
+![scatter_user_rating](https://github.com/user-attachments/assets/af4b5aa7-4769-4672-b1cb-03cbff352f70)
 
-![top_genres](https://github.com/user-attachments/assets/8be38295-439f-411b-b1b5-2a27a3663254)
+Plot ini menunjukkan hubungan antara jumlah film yang dirating oleh user dan rata-rata rating yang mereka berikan.
+Insight: User yang memberikan rating dalam jumlah besar cenderung memberi rating yang lebih stabil/moderat, sedangkan user dengan sedikit rating cenderung ekstrem.
 
-#### 6. Film dengan Rating Tertinggi
+#### 6. Barplot: 10 Film Paling Banyak Dirating
 
-Analisis film dengan rating tertinggi (dengan minimal 100 rating) menunjukkan bahwa film-film klasik dan kritikal sukses mendominasi daftar ini. Informasi ini dapat digunakan untuk memberikan rekomendasi populer kepada pengguna baru.
+![top10_movies_rating_count](https://github.com/user-attachments/assets/6a78aa75-94a2-4e44-83ce-1d6360b57f42)
 
-![top_rated_movies](https://github.com/user-attachments/assets/88537ef5-4af3-4a89-9adf-43c867c40455)
+Grafik ini menunjukkan 10 film dengan jumlah rating terbanyak.
+Insight: Film klasik seperti Forrest Gump dan The Shawshank Redemption menempati peringkat teratas, mencerminkan tingkat popularitas yang sangat tinggi.
+
+#### 7. Treemap: Genre Film Terpopuler
+
+![treemap_genre](https://github.com/user-attachments/assets/9bc10afd-2bfd-4ead-ade6-1fcf2fb1eeb5)
+
+Grafik ini menampilkan genre film berdasarkan tingkat popularitasnya dalam bentuk treemap, di mana ukuran setiap kotak mencerminkan jumlah film atau tingkat popularitas genre tersebut.
+
+Insight: Genre Drama, Comedy, dan Action mendominasi tampilan ini, menandakan ketertarikan penonton yang tinggi terhadap genre-genre tersebut.
+
+#### 8. Radar Chart: Genre Film Terpopuler
+
+![radar_genre](https://github.com/user-attachments/assets/ce2a4766-23c2-4fd5-b6f2-dd8a6fdf8616)
+
+Grafik radar ini memvisualisasikan popularitas berbagai genre film dalam bentuk area yang melebar ke berbagai arah sesuai skala nilai popularitas.
+
+Insight: Drama muncul sebagai genre paling populer, disusul oleh Comedy dan Thriller. Genre seperti Animation dan Documentary memiliki nilai popularitas lebih rendah.
+
+#### 9. Bubble Chart: Popularitas vs Kualitas Film
+
+![bubble_rating](https://github.com/user-attachments/assets/0d9eda6a-b5b3-47d5-80bd-87f7af1c5057)
+
+Grafik ini menggabungkan jumlah rating (sumbu X) dan rata-rata rating (sumbu Y) dari film, dengan ukuran dan warna gelembung mewakili jumlah dan kualitas ulasan.
+
+Insight: Terlihat bahwa beberapa film memiliki rating sangat tinggi meski tidak terlalu populer, dan sebaliknya ada film populer namun dengan rating rendah—menunjukkan bahwa popularitas tidak selalu mencerminkan kualitas.
+
+#### 10. Donut Chart: Distribusi Genre Film
+
+![donut_genre](https://github.com/user-attachments/assets/f7f0312e-1ae6-4e74-87a2-ab46a3cc5dcc)
+
+Grafik berbentuk donat ini menunjukkan distribusi persentase film berdasarkan genre.
+
+Insight: Drama mendominasi dengan porsi 23.7%, diikuti oleh Comedy dan Action. Genre Horror dan Romance menempati porsi yang lebih kecil.
+
+#### 11. Barplot: Top 15 Film Berdasarkan Rating Rata-rata (Min 100 Rating)
+
+![lollipop_top_movies](https://github.com/user-attachments/assets/30c115dd-402a-471b-aafc-1a345ef98811)
+
+Grafik ini menunjukkan 15 film dengan rating rata-rata tertinggi, dengan syarat minimal 100 rating agar hasil lebih representatif.
+
+Insight: Film-film dalam grafik ini mendapatkan apresiasi tinggi dari penonton, menunjukkan kualitas konten yang konsisten dan kuat berdasarkan ulasan.
 
 ## Data Preparation
 
@@ -164,7 +220,7 @@ Content-Based Filtering merekomendasikan item berdasarkan kesamaan fitur atau at
 
 #### Implementasi Model:
 
-Model Content-Based Filtering yang diimplementasikan menggunakan TF-IDF Vectorizer untuk mengekstrak fitur dari genre film, dan cosine similarity untuk menghitung kesamaan antar film. 
+Model Content-Based Filtering yang diimplementasikan menggunakan TF-IDF Vectorizer untuk mengekstrak fitur dari genre film, dan cosine similarity untuk menghitung kesamaan antar film.
 
 Langkah-langkah implementasi:
 
@@ -175,20 +231,21 @@ Langkah-langkah implementasi:
 Fungsi `get_recommendations_content_based` mengambil ID film sebagai input dan mengembalikan daftar film yang paling mirip berdasarkan genre. Fungsi ini bekerja dengan mencari indeks film dalam matriks cosine similarity, kemudian mengurutkan semua film berdasarkan nilai kesamaan, dan mengembalikan n film teratas (tidak termasuk film itu sendiri).
 
 #### Hasil Rekomendasi:
+
 Sebagai contoh, berikut adalah rekomendasi untuk film "Toy Story":
 
-| movieId | title | genres |
-|---------|-------|--------|
-| 2294 | Antz (1998) | Adventure\Animation\Children\Comedy\Fantasy |
-| 3114 | Toy Story 2 (1999) | Adventure\Animation\Children\Comedy\Fantasy |
-| 3754 | Adventures of Rocky and Bullwinkle, The (2000) | Adventure\Animation\Children\Comedy\Fantasy |
-| 4016 | Emperor's New Groove, The (2000) | Adventure\Animation\Children\Comedy\Fantasy |
-| 4886 | Monsters, Inc. (2001) | Adventure\Animation\Children\Comedy\Fantasy |
-| 45074 | Wild, The (2006) | Adventure\Animation\Children\Comedy\Fantasy |
-| 53121 | Shrek the Third (2007) | Adventure\Animation\Children\Comedy\Fantasy |
-| 65577 | Tale of Despereaux, The (2008) | Adventure\Animation\Children\Comedy\Fantasy |
-| 91355 | Asterix and the Vikings (Astérix et les Viking...) | Adventure\Animation\Children\Comedy\Fantasy |
-| 103755 | Turbo (2013) | Adventure\Animation\Children\Comedy\Fantasy |
+| movieId | title                                              | genres                                      |
+| ------- | -------------------------------------------------- | ------------------------------------------- |
+| 2294    | Antz (1998)                                        | Adventure\Animation\Children\Comedy\Fantasy |
+| 3114    | Toy Story 2 (1999)                                 | Adventure\Animation\Children\Comedy\Fantasy |
+| 3754    | Adventures of Rocky and Bullwinkle, The (2000)     | Adventure\Animation\Children\Comedy\Fantasy |
+| 4016    | Emperor's New Groove, The (2000)                   | Adventure\Animation\Children\Comedy\Fantasy |
+| 4886    | Monsters, Inc. (2001)                              | Adventure\Animation\Children\Comedy\Fantasy |
+| 45074   | Wild, The (2006)                                   | Adventure\Animation\Children\Comedy\Fantasy |
+| 53121   | Shrek the Third (2007)                             | Adventure\Animation\Children\Comedy\Fantasy |
+| 65577   | Tale of Despereaux, The (2008)                     | Adventure\Animation\Children\Comedy\Fantasy |
+| 91355   | Asterix and the Vikings (Astérix et les Viking...) | Adventure\Animation\Children\Comedy\Fantasy |
+| 103755  | Turbo (2013)                                       | Adventure\Animation\Children\Comedy\Fantasy |
 
 Dari hasil rekomendasi, terlihat bahwa model berhasil merekomendasikan film-film dengan genre yang sama dengan "Toy Story", yaitu film animasi petualangan untuk anak-anak dengan unsur komedi dan fantasi.
 
@@ -234,6 +291,7 @@ Grafik loss selama training menunjukkan bahwa model konvergen dengan cepat dan m
 ![model_loss](https://github.com/user-attachments/assets/d0ae9ebf-d415-48e8-a07e-7d8a821686eb)
 
 #### Hasil Rekomendasi:
+
 Berikut adalah contoh rekomendasi untuk pengguna dengan ID 414:
 
 **Film yang sudah ditonton pengguna (dengan rating 5.0):**
