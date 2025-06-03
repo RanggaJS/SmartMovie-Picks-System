@@ -249,8 +249,6 @@ Pendekatan ini menggunakan informasi konten (genre) untuk merekomendasikan film 
 - Banyak film memiliki tag **IMAX**, menyiratkan kualitas sinematik tinggi.
 - Tema ilmiah dan futuristik tetap terjaga dengan variasi tambahan seperti Thriller dan Comedy.
 
----
-
 ### 2. Collaborative Filtering (CF)
 
 Menggunakan **Neural Collaborative Filtering (NCF)** untuk merekomendasikan film berdasarkan kesamaan preferensi antar pengguna.
@@ -283,8 +281,6 @@ Menggunakan **Neural Collaborative Filtering (NCF)** untuk merekomendasikan film
 
 > Model menunjukkan tren konvergensi dengan validasi loss relatif stabil.
 
----
-
 ### 3. Contoh Rekomendasi untuk User ID: 414
 
 **Histori Rating Pengguna:**
@@ -309,8 +305,6 @@ Menggunakan **Neural Collaborative Filtering (NCF)** untuk merekomendasikan film
 
 > Rekomendasi menunjukkan kecenderungan pada film dengan genre **Drama** dan **Romance**, sesuai preferensi pengguna terhadap film-film berkualitas dengan elemen naratif yang kuat.
 
----
-
 ### 4. Kelebihan dan Kekurangan Pendekatan
 
 #### Content-Based Filtering
@@ -332,8 +326,6 @@ Menggunakan **Neural Collaborative Filtering (NCF)** untuk merekomendasikan film
 - **Kekurangan:**
   - Membutuhkan data interaksi pengguna yang cukup, rentan masalah cold-start untuk pengguna dan film baru.
   - Model lebih kompleks dan memerlukan waktu pelatihan serta tuning parameter.
-
----
 
 ### 5. Saran Pengembangan
 
