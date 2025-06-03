@@ -222,18 +222,18 @@ Mapping movieId ke indeks digunakan untuk memudahkan pencarian film referensi. B
 Film Referensi: Interstellar (2014) (ID Film: 109487)
 Daftar rekomendasi film yang dihasilkan mengandung genre dan tema yang sangat mirip dengan Interstellar, terutama Drama, Sci-Fi, dan film berformat IMAX.
 
-| No  | Judul Film                            | ID Film | Genre                               |
-| --- | ------------------------------------- | ------- | ------ | -------- | -------- | ---- |
-| 1   | Transcendence (2014)                  | 110730  | Drama  | Sci-Fi   | IMAX     |      |
-| 2   | Cloud Atlas (2012)                    | 97752   | Drama  | Sci-Fi   | IMAX     |      |
-| 3   | Contagion (2011)                      | 89470   | Sci-Fi | Thriller | IMAX     |      |
-| 4   | Gravity (2013)                        | 104841  | Action | Sci-Fi   | IMAX     |      |
-| 5   | The Amazing Spider-Man 2 (2014)       | 110553  | Action | Sci-Fi   | IMAX     |      |
-| 6   | Edge of Tomorrow (2014)               | 111759  | Action | Sci-Fi   | IMAX     |      |
-| 7   | Day the Earth Stood Still, The (2008) | 64497   | Drama  | Sci-Fi   | Thriller | IMAX |
-| 8   | Elysium (2013)                        | 103253  | Action | Drama    | Sci-Fi   | IMAX |
-| 9   | Real Steel (2011)                     | 90249   | Action | Drama    | Sci-Fi   | IMAX |
-| 10  | Men in Black III (2012)               | 94777   | Action | Comedy   | Sci-Fi   | IMAX |
+| No  | Judul Film                            | ID Film | Genre                            |
+| --- | ------------------------------------- | ------- | ---------------------------------|
+| 1   | Transcendence (2014)                  | 110730  | Drama\| Sci-Fi\| IMAX            |
+| 2   | Cloud Atlas (2012)                    | 97752   | Drama\| Sci-Fi\| IMAX            |
+| 3   | Contagion (2011)                      | 89470   | Sci-Fi\| Thriller\| IMAX         |
+| 4   | Gravity (2013)                        | 104841  | Action\| Sci-Fi\| IMAX           |
+| 5   | The Amazing Spider-Man 2 (2014)       | 110553  | Action\| Sci-Fi\| IMAX           |
+| 6   | Edge of Tomorrow (2014)               | 111759  | Action\| Sci-Fi\| IMAX           |
+| 7   | Day the Earth Stood Still, The (2008) | 64497   | Drama\| Sci-Fi\| Thriller\| IMAX |
+| 8   | Elysium (2013)                        | 103253  | Action\| Drama\| Sci-Fi\| IMAX   |
+| 9   | Real Steel (2011)                     | 90249   | Action\| Drama\| Sci-Fi\| IMAX   |
+| 10  | Men in Black III (2012)               | 94777   | Action\| Comedy\| Sci-Fi\| IMAX  |
 
 **Interpretasi Hasil**
 
