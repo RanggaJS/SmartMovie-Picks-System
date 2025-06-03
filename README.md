@@ -222,7 +222,7 @@ Mapping movieId ke indeks digunakan untuk memudahkan pencarian film referensi. B
 Film Referensi: Interstellar (2014) (ID Film: 109487)
 Daftar rekomendasi film yang dihasilkan mengandung genre dan tema yang sangat mirip dengan Interstellar, terutama Drama, Sci-Fi, dan film berformat IMAX.
 
-| No  | Judul Film                            | ID Film | Genre  |          |          |      |
+| No  | Judul Film                            | ID Film | Genre                               |
 | --- | ------------------------------------- | ------- | ------ | -------- | -------- | ---- |
 | 1   | Transcendence (2014)                  | 110730  | Drama  | Sci-Fi   | IMAX     |      |
 | 2   | Cloud Atlas (2012)                    | 97752   | Drama  | Sci-Fi   | IMAX     |      |
