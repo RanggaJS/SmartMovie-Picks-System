@@ -1,3 +1,76 @@
+backend/
+├── app/                           # Direktori utama aplikasi Flask
+│   ├── __init__.py                # Inisialisasi aplikasi Flask
+│   ├── ml/                        # Modul machine learning
+│   │   ├── __init__.py
+│   │   ├── advanced_recommendation_engine.py
+│   │   ├── diet_progress_analyzer.py
+│   │   ├── food_database.py
+│   │   ├── model_serializer.py
+│   │   ├── recommendation_engine.py
+│   │   ├── tensorflow_models.py
+│   │   └── tensorflow_ncf_lstm_example.py
+│   ├── models/                    # Model database SQLAlchemy
+│   │   ├── __init__.py
+│   │   ├── food.py
+│   │   ├── recommendation.py
+│   │   └── user.py
+│   ├── routes/                    # Definisi endpoint API
+│   │   ├── __init__.py
+│   │   ├── activities.py
+│   │   ├── auth.py
+│   │   ├── profile.py
+│   │   ├── progress.py
+│   │   ├── recommendations.py
+│   │   └── user.py
+│   └── utils/                     # Utilitas umum
+│       └── __init__.py
+│
+├── config.py                      # Konfigurasi aplikasi
+├── data/                          # Data untuk model dan database
+│   ├── FoodData_Central_foundation_food_json_2025-04-24.json
+│   └── FoodData_Central_foundation_food_json_2025-04-24.zip
+│
+├── migrations/                    # Migrasi database Flask-Migrate
+│   ├── alembic.ini
+│   ├── env.py
+│   ├── README
+│   ├── script.py.mako
+│   └── versions/
+│
+├── models/                        # Model machine learning terlatih
+│   └── tfidf_vectorizer.joblib
+│
+├── scripts/                       # Script utilitas dan inisialisasi
+│   ├── import_usda_data.py
+│   ├── initialize_food_database.py
+│   ├── README.md
+│   ├── rebuild_food_database.py
+│   └── sqlite_tools.py
+│
+├── .dockerignore                  # File untuk konfigurasi Docker
+├── .env~                          # Template file environment
+├── .flaskenv                      # Konfigurasi Flask
+├── app_minimal.py                 # Versi minimal aplikasi
+├── Dockerfile                     # Konfigurasi Docker
+├── food_data.csv                  # Data makanan
+├── food_database.db               # Database SQLite untuk makanan
+├── food_database.log              # Log database makanan
+├── init_db.py                     # Script inisialisasi database
+├── measure_model_accuracy.py      # Script pengukuran akurasi model
+├── mealmind_dev.db                # Database SQLite untuk development
+├── mealmind_prod.db               # Database SQLite untuk production
+├── README.md                      # Dokumentasi backend
+├── requirements.txt               # Dependensi Python
+├── run.py                         # Script utama untuk menjalankan aplikasi
+├── run_lightweight.py             # Versi ringan untuk menjalankan aplikasi
+├── simple_recommendations.py      # Implementasi sederhana rekomendasi
+├── simple_test.py                 # Script pengujian sederhana
+├── SQLITE_README.md               # Dokumentasi SQLite
+├── test_meal_variety.py           # Pengujian variasi makanan
+├── test_recommendations.py        # Pengujian rekomendasi
+└── train_models.py                # Script pelatihan model
+
 # Laporan Proyek Machine Learning - Rangga Julian Syaputra
 
 ## Domain Proyek
