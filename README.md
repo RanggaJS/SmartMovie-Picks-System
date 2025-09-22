@@ -2,49 +2,6 @@
 
 ## Domain Proyek
 
-## Project Structure
-```
-TomBERT-master/
-├── README.md
-├── README_WINDOWS.md
-├── README_SINGLE.md              # This file
-├── requirements.txt
-├── run_tombert.bat
-├── run_tombert_fixed.py
-├── run_multimodal_classifier.py
-├── run_multimodal_classifier.sh
-├── run_multimodal_classifier_test.sh
-├── run_classifier.py
-├── run_classifier.sh
-├── process_absa_data.py
-├── my_bert/
-│   ├── __init__.py
-│   ├── __main__.py
-│   ├── modeling.py
-│   ├── mm_modeling.py
-│   ├── bichannel_modeling.py
-│   ├── tokenization.py
-│   ├── optimization.py
-│   ├── file_utils.py
-│   └── convert_tf_checkpoint_to_pytorch.py
-├── resnet/
-│   ├── resnet.py
-│   ├── resnet_utils.py
-│   └── resnet152-b121ed2d.pth (place here)
-├── absa_data/
-│   ├── twitter/
-│   │   ├── train.tsv, dev.tsv, test.tsv
-│   │   └── train.txt, dev.txt, test.txt
-│   └── twitter2015/
-│       ├── train.tsv, dev.tsv, test.tsv
-│       └── train.txt, dev.txt, test.txt
-├── output/
-│   └── twitter2015_tombert_first_output/
-├── output_twitter2015/
-├── resnet152.pth
-└── tombert_env/                  # Local virtual environment (optional)
-```
-
 ### Latar Belakang
 
 Di era digital saat ini, pengguna menghadapi tantangan dalam memilih film yang sesuai dengan preferensi mereka akibat banyaknya konten film yang tersedia di berbagai platform streaming. Dengan ribuan film yang dapat diakses, sangat tidak praktis bagi pengguna untuk mencari dan memilih film secara manual. Oleh karena itu, diperlukan sistem rekomendasi film yang dapat memberikan saran personal berdasarkan perilaku dan preferensi pengguna.
