@@ -4,194 +4,49 @@
 
 This document outlines the comprehensive research methodology for developing and evaluating an IoT-enhanced STEM education system. The research follows a systematic approach from problem identification to evaluation against Sustainable Development Goals (SDGs).
 
-## 🔄 Detailed Research Flowchart
+## 🔄 Research Methodology Flowchart
 
 ```mermaid
 flowchart TD
-    Start([Research Project Start]) --> A[Problem Identification]
+    A[Problem Identification] --> B[Literature Review]
+    B --> C[IoT System Design & Development]
+    C --> D[Classroom Implementation]
+    D --> E[Data Collection]
+    E --> F[Analysis & Evaluation]
+    F --> G[SDG Impact Assessment]
     
-    A --> A1[Stakeholder Analysis]
-    A --> A2[Current State Assessment]
-    A --> A3[Problem Statement Formulation]
-    A1 --> A4[Research Questions Defined]
-    A2 --> A4
-    A3 --> A4
+    C --> C1{System Ready?}
+    C1 -->|No| C
+    C1 -->|Yes| D
     
-    A4 --> B[Literature Review]
-    B --> B1[IoT in Education Research]
-    B --> B2[STEM Education Analysis]
-    B --> B3[Technology Gap Analysis]
-    B1 --> B4[Theoretical Framework]
-    B2 --> B4
-    B3 --> B4
+    E --> E1{Data Complete?}
+    E1 -->|No| E
+    E1 -->|Yes| F
     
-    B4 --> C[IoT System Design & Prototype Development]
-    C --> C1[Hardware Design]
-    C --> C2[Software Development]
-    C --> C3[System Architecture]
+    G --> H[Documentation & Reporting]
+    H --> I[Continuous Improvement]
     
-    C1 --> C4[Prototype Testing]
-    C2 --> C4
-    C3 --> C4
+    classDef phase fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
     
-    C4 --> C5{Prototype Validated?}
-    C5 -->|No| C1
-    C5 -->|Yes| D[Implementation in STEM Classroom]
-    
-    D --> D1[Pilot Program Setup]
-    D --> D2[Curriculum Integration]
-    D --> D3[User Training]
-    
-    D1 --> D4[System Deployment]
-    D2 --> D4
-    D3 --> D4
-    
-    D4 --> E[Data Collection Phase]
-    E --> E1[Sensor Data Collection]
-    E --> E2[Educational Data Collection]
-    E --> E3[User Experience Data]
-    
-    E1 --> E4[Data Quality Check]
-    E2 --> E4
-    E3 --> E4
-    
-    E4 --> E5{Data Sufficient?}
-    E5 -->|No| E1
-    E5 -->|Yes| F[Analysis of Outcomes]
-    
-    F --> F1[Technical Analysis]
-    F --> F2[Educational Analysis]
-    F --> F3[Statistical Analysis]
-    
-    F1 --> F4[Analysis Results]
-    F2 --> F4
-    F3 --> F4
-    
-    F4 --> G[SDG Evaluation]
-    G --> G1[SDG 2: Zero Hunger Analysis]
-    G --> G2[SDG 4: Quality Education Analysis]
-    G --> G3[SDG 11: Sustainable Cities Analysis]
-    
-    G1 --> G4[Impact Assessment]
-    G2 --> G4
-    G3 --> G4
-    
-    G4 --> H[Documentation & Reporting]
-    H --> H1[Research Report]
-    H --> H2[Technical Documentation]
-    H --> H3[Policy Recommendations]
-    
-    H1 --> I[Continuous Improvement]
-    H2 --> I
-    H3 --> I
-    
-    I --> I1[Feedback Collection]
-    I1 --> I2{Improvements Needed?}
-    I2 -->|Yes| C1
-    I2 -->|No| End([Research Project Complete])
-    
-    %% Styling
-    classDef phase1 fill:#ff9999,stroke:#333,stroke-width:2px
-    classDef phase2 fill:#ffcc99,stroke:#333,stroke-width:2px
-    classDef phase3 fill:#99ccff,stroke:#333,stroke-width:2px
-    classDef phase4 fill:#99ff99,stroke:#333,stroke-width:2px
-    classDef phase5 fill:#ff99ff,stroke:#333,stroke-width:2px
-    classDef phase6 fill:#ffff99,stroke:#333,stroke-width:2px
-    classDef phase7 fill:#99ffcc,stroke:#333,stroke-width:2px
-    classDef decision fill:#ffeb3b,stroke:#333,stroke-width:2px
-    classDef startEnd fill:#4caf50,stroke:#333,stroke-width:3px
-    
-    class A,A1,A2,A3,A4 phase1
-    class B,B1,B2,B3,B4 phase2
-    class C,C1,C2,C3,C4 phase3
-    class D,D1,D2,D3,D4 phase4
-    class E,E1,E2,E3,E4 phase5
-    class F,F1,F2,F3,F4 phase6
-    class G,G1,G2,G3,G4 phase7
-    class C5,E5,I2 decision
-    class Start,End startEnd
+    class A,B,C,D,E,F,G,H,I phase
+    class C1,E1 decision
 ```
 
-## 📊 Parallel Activities Flowchart
+## 📊 Timeline Overview
 
 ```mermaid
 gantt
-    title Research Timeline with Parallel Activities
+    title Research Timeline
     dateFormat  YYYY-MM-DD
-    section Phase 1: Problem Identification
-    Stakeholder Analysis    :a1, 2024-01-01, 30d
-    Current State Assessment :a2, 2024-01-15, 30d
-    Problem Statement       :a3, 2024-02-01, 15d
-    
-    section Phase 2: Literature Review
-    IoT Research           :b1, 2024-01-15, 45d
-    STEM Education Analysis :b2, 2024-02-01, 45d
-    Technology Gap Analysis :b3, 2024-02-15, 30d
-    Framework Development   :b4, 2024-03-01, 30d
-    
-    section Phase 3: System Development
-    Hardware Design        :c1, 2024-03-15, 60d
-    Software Development   :c2, 2024-04-01, 60d
-    System Architecture    :c3, 2024-03-15, 45d
-    Prototype Testing      :c4, 2024-05-01, 30d
-    
-    section Phase 4: Implementation
-    Pilot Setup           :d1, 2024-06-01, 30d
-    Curriculum Integration :d2, 2024-06-15, 45d
-    User Training         :d3, 2024-07-01, 30d
-    System Deployment     :d4, 2024-07-15, 15d
-    
-    section Phase 5: Data Collection
-    Sensor Data Collection :e1, 2024-08-01, 180d
-    Educational Data       :e2, 2024-08-01, 180d
-    User Experience Data   :e3, 2024-08-15, 165d
-    Data Quality Check     :e4, 2024-09-01, 150d
-    
-    section Phase 6: Analysis
-    Technical Analysis     :f1, 2025-02-01, 45d
-    Educational Analysis   :f2, 2025-02-01, 45d
-    Statistical Analysis   :f3, 2025-02-15, 30d
-    
-    section Phase 7: SDG Evaluation
-    SDG Analysis          :g1, 2025-03-15, 30d
-    Impact Assessment     :g2, 2025-04-01, 30d
-    Documentation         :g3, 2025-04-15, 30d
-```
-
-## 🔄 Decision Points and Feedback Loops
-
-```mermaid
-flowchart LR
-    subgraph "Iterative Development Cycle"
-        A[Design] --> B[Develop]
-        B --> C[Test]
-        C --> D{Meets Requirements?}
-        D -->|No| E[Analyze Issues]
-        E --> A
-        D -->|Yes| F[Deploy]
-        F --> G[Monitor]
-        G --> H{Performance OK?}
-        H -->|No| E
-        H -->|Yes| I[Complete]
-    end
-    
-    subgraph "Quality Gates"
-        J[Technical Review] --> K[Educational Review]
-        K --> L[Stakeholder Review]
-        L --> M{All Approved?}
-        M -->|No| N[Revise]
-        N --> J
-        M -->|Yes| O[Proceed to Next Phase]
-    end
-    
-    subgraph "Risk Management"
-        P[Risk Assessment] --> Q[Risk Mitigation]
-        Q --> R[Risk Monitoring]
-        R --> S{Risk Level Acceptable?}
-        S -->|No| T[Implement Controls]
-        T --> Q
-        S -->|Yes| U[Continue]
-    end
+    section Research Phases
+    Problem Identification    :2024-01-01, 60d
+    Literature Review        :2024-02-15, 60d
+    System Development       :2024-04-01, 90d
+    Classroom Implementation :2024-07-01, 60d
+    Data Collection         :2024-09-01, 180d
+    Analysis & Evaluation   :2025-03-01, 60d
+    SDG Assessment          :2025-05-01, 30d
 ```
 
 ---
